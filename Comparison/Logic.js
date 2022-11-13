@@ -2,7 +2,7 @@ import Formulas from "Comparison";
 
 
 class Logic{
-    
+
     compare(source,target){
         let objArr = [];
         const formula = new Formulas();
