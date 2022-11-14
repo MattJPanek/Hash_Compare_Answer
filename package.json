@@ -1,5 +1,28 @@
 {
+  "type": "module",
   "dependencies": {
     "mocha": "^10.1.0"
-  }
+  },
+  "name": "hash_compare_answer",
+  "description": "",
+  "version": "1.0.0",
+  "main": "solution.js",
+  "devDependencies": {
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MattJPanek/Hash_Compare_Answer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MattJPanek/Hash_Compare_Answer/issues"
+  },
+  "homepage": "https://github.com/MattJPanek/Hash_Compare_Answer#readme"
 }

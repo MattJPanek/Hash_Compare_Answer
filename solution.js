@@ -1,12 +1,27 @@
 
+import Formulas from "./Comparison/Formulas.js";
 
-let array2 = [1,2,3,4,5]
+const compare = new Formulas();
 
-let object2 = {"This":"That"}
+const cars = ["Saab", "Volvo", "BMW"];
+const cars2 = ["Saab", "Volvo", "BMW"];
+const object1 = {true:"That", "7": "This"};
 
-let nu5m = 11
+const object2 = {"5":"That"};
+const object5 = {"5": "That", "This": 4, "4":{"Okay": true}}
+const object3 = {"5": "That", "This": 4, "4":{"Okay": true}}
+const object4 = {"5":"That",
+    "2": 1,
+    "3": true,
+    "4": [1,2,3,4,5]};
 
+var key = 1
 
+//if (typeof object2 === 'object' && Array.isArray(object2)) {
+  //  console.log(object2)
+//}
+
+console.log(compare.checkHash("shallow",object1,object2));
 
 
 
