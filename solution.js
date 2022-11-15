@@ -7,12 +7,13 @@ const obj1 = {"1": "Test", "2": 3, "3": true}
 const obj2 = {"1": "Test", "2": 3, "3": true}
 const obj3 = {"1": "Test", "5": 3, "3": true}
 const obj4 = {"1": "Test2", "2": 3, "3": true}
-
+const obj11 ={"1": "Test2"}
 
 const obj6 = {"1": "Test2", "2": 3, "3": true, "4": [1, 2, 3, 5], "5": {"Title": "Five", "Name": "Book"}}
 const obj7 = {"1": "Test2", "2": 3, "3": true, "4": [1, 2, 3, 5], "5": {"Title": "Five", "Name": "Book"}}
 const obj8 = {"1": "Test2", "2": 3, "3": true, "4": [1, 2, 4, 5], "5": {"Title": "Five", "Name": "Book"}}
-const obj9 = {"1": "Test2", "2": 3, "3": true, "4": [1, 2, 3, 5], "5": {"Title": "Five", "Name": "Test"}}
+const obj9 = {"1": "Test2", "2": 3, "3": true, "4": [1, 2, 4, 5], "5": {"Title": "Five", "Name": "Test"}}
+const obj10 = {"1": "Test2", "2": 3, "3": true, "4": [1, 2, 5], "5": {"Title": "Five", "Name": "Test"}}
 
 console.log("Test 1: Shallow Compare Same Object")
 console.log(compare.checkHash("shallow", obj1, obj2, []));
@@ -50,4 +51,7 @@ console.log(compare.checkHash("deep", obj6, obj8, []));
 
 console.log("Test 11: Deep Compare Different Value in Object")
 console.log(compare.checkHash("deep", obj6, obj9, []));
+
+console.log("Test 12: Deep Compare Different Value in Object")
+console.log(compare.checkHash("deep", obj4, obj10, []));
 

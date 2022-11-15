@@ -69,6 +69,16 @@ export default class Formulas {
             var bool = comp.shallowCompare(source, target)
 
             if (bool != true) {
+                if (Object.keys(source).length < Object.keys(target).length) {
+                    const sourceTarget = new SourceTarget("Difference detect in hash length.", "Source Keys: " + Object.keys(source) + " Source Values: " + Object.values(source), "Target Keys: " + Object.keys(target) + " Target Values: " + Object.values(target));
+                    objArr.push(sourceTarget);
+                } else if (Object.keys(source).length > Object.keys(target).length) {
+                    const sourceTarget = new SourceTarget("Difference detect in hash length.", "Source Keys: " + Object.keys(source) + " Source Values: " + Object.values(source), "Target Keys: " + Object.keys(target) + " Target Values: " + Object.values(target));
+                    objArr.push(sourceTarget);
+
+
+                }
+
                 Object.entries(source).forEach((entry) => {
                     Object.entries(target).forEach((entry2) => {
                         const [key, value] = entry;
@@ -109,8 +119,12 @@ export default class Formulas {
 
                             //Checking if the type is an array
                         } else if (key === key2 && Array.isArray(value)) {
-                            if (value.length !== value2.length) {
-                                const sourceTarget = new SourceTarget("Array Length Do Not Match", "Source: " + value.length, "Target: " + value2.length);
+
+                            if (Object.keys(value).length < Object.keys(value2).length) {
+                                const sourceTarget = new SourceTarget("Difference detect in hash length.", "Source Keys: " + Object.keys(value) + " Source Values: " + Object.values(value), "Target Keys: " + Object.keys(value2) + " Target Values: " + Object.values(value2));
+                                objArr.push(sourceTarget);
+                            } else if (Object.keys(value).length > Object.keys(value2).length) {
+                                const sourceTarget = new SourceTarget("Difference detect in hash length.", "Source Keys: " + Object.keys(value) + " Source Values: " + Object.values(value), "Target Keys: " + Object.keys(value2) + " Target Values: " + Object.values(value2));
                                 objArr.push(sourceTarget);
 
 
@@ -121,14 +135,93 @@ export default class Formulas {
                                 //Comparing the values of each array, recording the difference
                                 for (var i = 0; i < sourceIndex.length; i++) {
                                     for (var j = 0; j < targetIndex.length; j++) {
-                                        if (sourceIndex[i] !== targetIndex[j]) {
-                                            const sourceTarget = new SourceTarget("Array Values Do Not Match", "Source: " + source[i], "Target: " + target[j]);
-                                            objArr.push(sourceTarget);
+                                        if (sourceIndex.length === targetIndex.length) {
+                                            if (i === j && sourceIndex[i] !== targetIndex[j]) {
+                                                const sourceTarget = new SourceTarget("Array Values Do Not Match", "Source: " + sourceIndex[i], "Target: " + targetIndex[j]);
+                                                objArr.push(sourceTarget);
 
+                                            }
+                                        } else {
+                                            if (sourceIndex.length < targetIndex.length) {
+                                                const sourceTarget = new SourceTarget("Values Missing in Source Array: ", targetIndex[j]);
+                                                objArr.push(sourceTarget);
+                                            } else {
+                                                const sourceTarget = new SourceTarget("Values Missing in Target Array: ", sourceIndex[j]);
+                                                objArr.push(sourceTarget);
+                                            }
                                         }
                                     }
                                 }
                             }
+
+
+                        } else {
+                            //If Key values do not match
+                            if (key !== key2 && value === value2) {
+                                const sourceTarget = new SourceTarget("Key Values Do Not Match", "Source: " + key, "Target: " + key2);
+                                objArr.push(sourceTarget);
+
+                                //If key is not a string
+                            } else if (typeof key !== 'string' && value === value2) {
+                                const sourceTarget = new SourceTarget("Key Value aren't strings", "Source: " + key, "Target: " + key2);
+                                objArr.push(sourceTarget);
+
+                                //If the values don't match, recording the difference
+                            } else if (key === key2 && typeof value === 'string') {
+                                if (value !== value2) {
+                                    const sourceTarget = new SourceTarget("String Values Do Not Match", "Source: " + value, "Target: " + value2);
+                                    objArr.push(sourceTarget);
+
+                                }
+                                //Checking if the type is a Number
+                            } else if (key === key2 && typeof value === 'number') {
+                                if (value !== value2) {
+                                    const sourceTarget = new SourceTarget("Numeric Values Do Not Match", "Source: " + value, "Target: " + value2);
+                                    objArr.push(sourceTarget);
+
+                                }
+
+                                //Checking if the type is a Boolean
+                            } else if (key === key2 && typeof value === 'boolean') {
+                                if (value !== value2) {
+                                    const sourceTarget = new SourceTarget("Boolean Values Do Not Match", "Source: " + value, "Target: " + value2);
+                                    objArr.push(sourceTarget);
+
+                                }
+
+                                //Checking if the type is an array
+                            } else if (key === key2 && Array.isArray(value)) {
+
+
+                                if (Object.keys(value).length < Object.keys(value2).length) {
+                                    const sourceTarget = new SourceTarget("Difference detect in hash length.", "Source Keys: " + Object.keys(value) + " Source Values: " + Object.values(value), "Target Keys: " + Object.keys(value2) + " Target Values: " + Object.values(value2));
+                                    objArr.push(sourceTarget);
+                                } else if (Object.keys(value).length > Object.keys(value2).length) {
+                                    const sourceTarget = new SourceTarget("Difference detect in hash length.", "Source Keys: " + Object.keys(value) + " Source Values: " + Object.values(value), "Target Keys: " + Object.keys(value2) + " Target Values: " + Object.values(value2));
+                                    objArr.push(sourceTarget);
+
+
+                                } else {
+                                    const sourceIndex = value;
+                                    const targetIndex = value2;
+
+                                    //Comparing the values of each array, recording the difference
+                                    for (var i = 0; i < sourceIndex.length; i++) {
+                                        for (var j = 0; j < targetIndex.length; j++) {
+                                            if (sourceIndex.length === targetIndex.length) {
+                                                if (i === j && sourceIndex[i] !== targetIndex[j]) {
+                                                    const sourceTarget = new SourceTarget("Array Values Do Not Match", "Source: " + sourceIndex[i], "Target: " + targetIndex[j]);
+                                                    objArr.push(sourceTarget);
+
+                                                }
+                                            } else {
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
                         }
 
 
@@ -147,6 +240,16 @@ export default class Formulas {
             var bool = comp.deepCompare(source, target)
 
             if (bool != true) {
+
+                if (Object.keys(source).length < Object.keys(target).length) {
+                    const sourceTarget = new SourceTarget("Difference detect in hash length.", "Source Keys: " + Object.keys(source) + " Source Values: " + Object.values(source), "Target Keys: " + Object.keys(target) + " Target Values: " + Object.values(target));
+                    objArr.push(sourceTarget);
+                } else if (Object.keys(source).length > Object.keys(target).length) {
+                    const sourceTarget = new SourceTarget("Difference detect in hash length.", "Source Keys: " + Object.keys(source) + " Source Values: " + Object.values(source), "Target Keys: " + Object.keys(target) + " Target Values: " + Object.values(target));
+                    objArr.push(sourceTarget);
+
+                }
+
                 Object.entries(source).forEach((entry) => {
                     Object.entries(target).forEach((entry2) => {
                         const [key, value] = entry;
@@ -185,9 +288,14 @@ export default class Formulas {
 
                             //Checking if the type is an array
                         } else if (key === key2 && Array.isArray(value)) {
-                            if (value.length !== value2.length) {
-                                const sourceTarget = new SourceTarget("Array Length Do Not Match", "Source: " + value.length, "Target: " + value2.length);
+
+                            if (Object.keys(value).length < Object.keys(value2).length) {
+                                const sourceTarget = new SourceTarget("Difference detect in hash length.", "Source Keys: " + Object.keys(value) + " Source Values: " + Object.values(value), "Target Keys: " + Object.keys(value2) + " Target Values: " + Object.values(value2));
                                 objArr.push(sourceTarget);
+                            } else if (Object.keys(value).length > Object.keys(value2).length) {
+                                const sourceTarget = new SourceTarget("Difference detect in hash length.", "Source Keys: " + Object.keys(value) + " Source Values: " + Object.values(value), "Target Keys: " + Object.keys(value2) + " Target Values: " + Object.values(value2));
+                                objArr.push(sourceTarget);
+
 
                             } else {
                                 const sourceIndex = value;
@@ -196,14 +304,18 @@ export default class Formulas {
                                 //Comparing the values of each array, recording the difference
                                 for (var i = 0; i < sourceIndex.length; i++) {
                                     for (var j = 0; j < targetIndex.length; j++) {
-                                        if (i === j && sourceIndex[i] !== targetIndex[j]) {
+                                        if (sourceIndex.length === targetIndex.length) {
+                                            if (i === j && sourceIndex[i] !== targetIndex[j]) {
+                                                const sourceTarget = new SourceTarget("Array Values Do Not Match", "Source: " + sourceIndex[i], "Target: " + targetIndex[j]);
+                                                objArr.push(sourceTarget);
 
-                                            const sourceTarget = new SourceTarget("Array Values Do Not Match", "Source: " + sourceIndex[i], "Target: " + targetIndex[j]);
-                                            objArr.push(sourceTarget);
+                                            }
+                                        } else {
                                         }
                                     }
                                 }
                             }
+
 
                         } else if (key === key2 && Array.isArray(value) === false && typeof value === 'object') {
                             Object.entries(value).forEach((entry3) => {
@@ -238,10 +350,14 @@ export default class Formulas {
 
                                         //Checking if the type is an array
                                     } else if (key3 === key4 && Array.isArray(value3)) {
-                                        console.log("test")
-                                        if (value3.length !== value4.length) {
-                                            const sourceTarget = new SourceTarget("Array Length Do Not Match", "Source: " + value3.length, "Target: " + value4.length);
+
+                                        if (Object.keys(value3).length < Object.keys(value4).length) {
+                                            const sourceTarget = new SourceTarget("Difference detect in hash length.", "Source Keys: " + Object.keys(value3) + " Source Values: " + Object.values(value3), "Target Keys: " + Object.keys(value4) + " Target Values: " + Object.values(value4));
                                             objArr.push(sourceTarget);
+                                        } else if (Object.keys(value3).length > Object.keys(value4).length) {
+                                            const sourceTarget = new SourceTarget("Difference detect in hash length.", "Source Keys: " + Object.keys(value3) + " Source Values: " + Object.values(value3), "Target Keys: " + Object.keys(value4) + " Target Values: " + Object.values(value4));
+                                            objArr.push(sourceTarget);
+
 
                                         } else {
                                             const sourceIndex2 = value3;
@@ -262,8 +378,6 @@ export default class Formulas {
                                     }
                                 });
                             });
-
-
                         }
 
 
